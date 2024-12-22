@@ -5,7 +5,7 @@ import { applyMiddleware } from 'graphql-middleware'
 import { makeSchema } from 'nexus';
 import * as types_gql from './gql';
 import { myConfig } from './config';
-import { MyToken, https_server, myMiddleware, ws_server, http_server } from './utils';
+import { MyToken, https_server, middleware_01, ws_server, http_server } from './utils';
 // --------------------------------------------------
 const main = async () => {
   // -----------------------
@@ -15,7 +15,7 @@ const main = async () => {
   // -----------------------
   const app = express();
   //
-  const schemaWithMiddleware = applyMiddleware(schema, myMiddleware)
+  const schemaWithMiddleware = applyMiddleware(schema, middleware_01)
   // ----------------------- https or http
   const server = myConfig.SERVER_SSL ? https_server(app, myConfig.path_ssl_crt, myConfig.path_ssl_key) : http_server(app);
   // ----------------------- ws
@@ -45,15 +45,15 @@ const main = async () => {
     ],
   });
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app, path: myConfig.graphql_url })
+  apolloServer.applyMiddleware({ app, path: myConfig.graphql_path_url })
   // ------------------------------------------------ listen
   if (myConfig.SERVER_SSL) {
     server.listen(myConfig.PORT_HTTPS, () => {
-      console.log(`https://localhost:${myConfig.PORT_HTTPS}/${myConfig.graphql_url}`);
+      console.log(`https://localhost:${myConfig.PORT_HTTPS}/${myConfig.graphql_path_url}`);
     });
   } else {
     server.listen(myConfig.PORT_HTTP, () => {
-      console.log(`http://localhost:${myConfig.PORT_HTTP}/${myConfig.graphql_url}`);
+      console.log(`http://localhost:${myConfig.PORT_HTTP}/${myConfig.graphql_path_url}`);
     });
   }
 };
