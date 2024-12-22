@@ -1,0 +1,16 @@
+#dirs
+/node_modules/
+/dist/
+/.vs
+/.git
+
+#files
+/package-lock.json
+/yarn.lock
+
+#extension
+*.zip
+*.jpg
+*.jpeg
+*.png
+*.exe
